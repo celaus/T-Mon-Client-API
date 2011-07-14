@@ -1,0 +1,99 @@
+==============================
+Tests for the client API
+==============================
+
+    >>> import hashlib
+    >>> import urllib2
+    >>> import time
+    >>> from rjdj.tmon.server.models import WebService
+    >>> from django.contrib.auth.models import User 
+    >>> from rjdj.tmon.client import *
+    >>> from pprint import pprint
+
+Preparations:
+-------------
+    >>> TEST_SECRET = "AAAAAAABCDEFABCDEFABCDEF"
+
+    >>> user = User()
+    >>> user.username = "another_testuser"
+    >>> user.set_password("!test")
+    >>> user.email = "test@test.com"
+    >>> user.save()
+
+    >>> ws = WebService()    
+    >>> ws.owner = user
+    >>> ws.secret = TEST_SECRET
+    >>> ws.name = "_".join(("testdb", hashlib.md5(str(time.time())).hexdigest()))
+    >>> ws.save()
+    
+    
+    >>> client = TMonClient()
+    Traceback (most recent call last):
+    ...
+    TypeError: __init__() takes exactly 2 arguments (1 given)
+
+    >>> client = TMonClient("abc")
+    Traceback (most recent call last):
+    ...
+    InvalidSettings: <type 'str'>
+
+    >>> client = TMonClient({})
+    Traceback (most recent call last):
+    ...
+    InvalidSettings
+    
+Creating valid settings:
+    >>> settings = { "wsid": ws.id, "url": "http://localhost:8000", "secret": TEST_SECRET }
+    >>> client = TMonClient(settings)
+
+Are we good to go?
+    >>> client.track()
+    Traceback (most recent call last):
+    ...
+    TypeError: track() takes at least 4 arguments (1 given)
+
+Yes we are!
+    >>> useragents = [ "Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405",
+    ...                "Mozilla/5.0 (Linux; U; Android 2.2.1; fr-ch; A43 Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
+    ...                "Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543a Safari/419.3" ]
+    >>> ips = [ "72.32.231.8",
+    ...         "194.232.104.140",
+    ...         "213.131.233.151" ]
+    
+    >>> webservices = [ "/register", "/login", "/get/data/from/something" ]
+
+Preparations for result capturing:    
+    >>> client.DEBUG = True
+    
+Alright, let's start:
+    >>> for i in xrange(len(useragents)):
+    ...    client.track(webservices[i], useragents[i], ips[i])
+    <BLANKLINE>
+    Error while tracking the webservice: <urlopen error [Errno 111] Connection refused>
+    Parameters: 
+        url: /...
+        user agent: ...
+        ip: ...
+        username: 
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Error while tracking the webservice: <urlopen error [Errno 111] Connection refused>
+    Parameters: 
+        url: /...
+        user agent: ...
+        ip: ...
+        username: 
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Error while tracking the webservice: <urlopen error [Errno 111] Connection refused>
+    Parameters: 
+        url: /...
+        user agent: ...
+        ip: ...
+        username: 
+    <BLANKLINE>
+    <BLANKLINE>
+
+
