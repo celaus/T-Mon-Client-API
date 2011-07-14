@@ -26,6 +26,7 @@ import urllib2
 import urllib
 import json
 import base64
+import logging
 from sys import stderr
 from Crypto.Cipher import AES
 from threading import Thread
@@ -128,7 +129,7 @@ Parameters:
         except Exception as ex: 
             msg = self.ERROR_MESSAGE % (ex, url, user_agent, remote_ip, username)
             if self.DEBUG: print msg
-            else: stderr.write(msg) 
+            else: logging.debug(msg) 
     
     
     def __send(self, data, wsid):
