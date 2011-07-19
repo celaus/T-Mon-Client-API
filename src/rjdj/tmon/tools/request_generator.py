@@ -74,19 +74,17 @@ def send_request(client):
     user = USER[random.randint(0, len(USER) - 1)]
     client.track(url, ua, ip, user)
 
-def run(tmon_client, num_of_req, duration):
-    """ Runs <num_of_req> requests per minute (in parallel) for <duration> minutes on <tmon_client>. """
+def run(tmon_client, num_of_req):
+    """ Runs <num_of_req> requests per minute (in parallel) on <tmon_client>. """
     
     delay = num_of_req / 60 # seconds
     threads = []
     
-    for minute in xrange(duration):
-        for num in xrange(num_of_req):
-            t = Thread(target = send_request, 
-                       args = (tmon_client, ))
-            t.start()
-            threads.append(t)
-            time.sleep(delay)
+    for num in xrange(num_of_req):
+        t = Thread(target = send_request, 
+                   args = (tmon_client, ))
+        t.start()
+        threads.append(t)
             
     for thread in threads:
         thread.join()
@@ -97,7 +95,6 @@ def run_from_commandline(path_to_file, *args):
     client = None
     try:
         num_of_req = int(args[0])
-        duration = int(args[1]) # minutes
         
         parser = ConfigParser.ConfigParser()
         parser.read(args[2])
@@ -106,7 +103,7 @@ def run_from_commandline(path_to_file, *args):
             config.update({name: value})
         
         client = TMonClient(config)   
-        run(client, num_of_req, duration)
+        run(client, num_of_req)
     except TMonClientError:
         print """Please provide a valid config file! See var/default.cfg for an example! """
         exit(1)

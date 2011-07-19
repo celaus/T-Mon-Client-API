@@ -1,0 +1,6 @@
+CHANGES for rjdj.tmon.client
+============================
+
+trunk
+-----
+  - celaus: added a few documentation files, adjusted request generator

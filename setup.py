@@ -25,7 +25,7 @@ __docformat__ = "reStructuredText"
 from setuptools import setup, find_packages
 
 setup(name = "rjdj.tmon.client",
-      version = "0.1",
+      version = "0.1a",
       author = 'Reality Jockey Ltd.',
       author_email = 'info@rjdj.me',
       description = 'RjDj Tracking Monitor Client Library',
