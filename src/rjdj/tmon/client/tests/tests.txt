@@ -46,13 +46,9 @@ Creating valid settings:
     >>> settings = { "wsid": ws.id, "url": "http://localhost:8000", "secret": TEST_SECRET }
     >>> client = TMonClient(settings)
 
-Are we good to go?
+The method accepts any keyword parameters, even nothing is possible:
     >>> client.track()
-    Traceback (most recent call last):
-    ...
-    TypeError: track() takes at least 4 arguments (1 given)
 
-Yes we are!
     >>> useragents = [ "Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405",
     ...                "Mozilla/5.0 (Linux; U; Android 2.2.1; fr-ch; A43 Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
     ...                "Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543a Safari/419.3" ]
@@ -67,33 +63,13 @@ Preparations for result capturing:
     
 Alright, let's start:
     >>> for i in xrange(len(useragents)):
-    ...    client.track(webservices[i], useragents[i], ips[i])
-    <BLANKLINE>
+    ...    client.track(url = webservices[i], useragent = useragents[i], ip = ips[i])
     Error while tracking the webservice: <urlopen error [Errno 111] Connection refused>
-    Parameters: 
-        url: /...
-        user agent: ...
-        ip: ...
-        username: 
-    <BLANKLINE>
-    <BLANKLINE>
-    <BLANKLINE>
+    Fields: 
+    {...} 
     Error while tracking the webservice: <urlopen error [Errno 111] Connection refused>
-    Parameters: 
-        url: /...
-        user agent: ...
-        ip: ...
-        username: 
-    <BLANKLINE>
-    <BLANKLINE>
-    <BLANKLINE>
+    Fields: 
+    {...} 
     Error while tracking the webservice: <urlopen error [Errno 111] Connection refused>
-    Parameters: 
-        url: /...
-        user agent: ...
-        ip: ...
-        username: 
-    <BLANKLINE>
-    <BLANKLINE>
-
-
+    Fields: 
+    {...} 

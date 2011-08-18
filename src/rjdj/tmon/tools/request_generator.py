@@ -46,24 +46,28 @@ IPS = (
     "8.8.8.8",
     "9.9.9.9",
     "123.45.8.91",
+    "188.154.5.32",
     )
     
 # Real user agents as test data
-UAS = (
-    "Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405", 
-    "Mozilla/5.0 (Linux; U; Android 2.2.1; fr-ch; A43 Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
-    "Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543a Safari/419.3",
-    "Mozilla/5.0 (iPod; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543a Safari/419.3",
-    )
+#UAS = (
+#    "Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405", 
+#    "Mozilla/5.0 (Linux; U; Android 2.2.1; fr-ch; A43 Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
+#    "Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543a Safari/419.3",
+#    "Mozilla/5.0 (iPod; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543a Safari/419.3",
+#    )
     
 # Users that are also included (or an empty string, simulating anonymous access)
-USER = (
-    "jsmith",
-    "fmuller",
-    "jdoe", 
-    "", "", # double the chances of an empty request
-    )
+#USER = (
+#    "jsmith",
+#    "fmuller",
+#    "jdoe", 
+#    "", "", # double the chances of an empty request
+#    )
     
+UAS = ( "Dimensions 1.0 (iPod touch; iPhone OS 4.3.4; de_AT)", )
+USER = ( None, )
+
 
 def send_request(client):
     """ Simulates a request and adds tracking data. """
@@ -89,6 +93,8 @@ def run(tmon_client, num_of_req):
     for thread in threads:
         thread.join()
     
+    raw_input("All done, any key to continue ...")
+    
 def run_from_commandline(path_to_file, *args):
     """ """
     
@@ -97,7 +103,7 @@ def run_from_commandline(path_to_file, *args):
         num_of_req = int(args[0])
         
         parser = ConfigParser.ConfigParser()
-        parser.read(args[2])
+        parser.read(args[1])
         config = {}
         for name, value in parser.items("loadtest"):
             config.update({name: value})
@@ -108,6 +114,6 @@ def run_from_commandline(path_to_file, *args):
         print """Please provide a valid config file! See var/default.cfg for an example! """
         exit(1)
     except:
-        print "USAGE: loadtest <number of requests per minute> <duration in minutes> <path to config>"
+        print "USAGE: loadtest <number of requests per minute> <path to config>"
         exit(1)
 
