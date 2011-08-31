@@ -50,25 +50,21 @@ IPS = (
     )
     
 # Real user agents as test data
-#UAS = (
-#    "Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405", 
-#    "Mozilla/5.0 (Linux; U; Android 2.2.1; fr-ch; A43 Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
-#    "Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543a Safari/419.3",
-#    "Mozilla/5.0 (iPod; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543a Safari/419.3",
-#    )
+UAS = (
+    "Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405", 
+    "Mozilla/5.0 (Linux; U; Android 2.2.1; fr-ch; A43 Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
+    "Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543a Safari/419.3",
+    "Mozilla/5.0 (iPod; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543a Safari/419.3",
+    )
     
-# Users that are also included (or an empty string, simulating anonymous access)
-#USER = (
-#    "jsmith",
-#    "fmuller",
-#    "jdoe", 
-#    "", "", # double the chances of an empty request
-#    )
+ Users that are also included (or an empty string, simulating anonymous access)
+USER = (
+    "jsmith",
+    "fmuller",
+    "jdoe", 
+    "", "", # double the chances of an empty request
+    )
     
-UAS = ( "Dimensions 1.0 (iPod touch; iPhone OS 4.3.4; de_AT)", )
-USER = ( None, )
-
-
 def send_request(client):
     """ Simulates a request and adds tracking data. """
     
@@ -76,7 +72,7 @@ def send_request(client):
     ip = IPS[random.randint(0, len(IPS) - 1)]
     ua = UAS[random.randint(0, len(UAS) - 1)]
     user = USER[random.randint(0, len(USER) - 1)]
-    client.track(url, ua, ip, user)
+    client.track(url = url, useragent = ua, ip = ip, username = user)
 
 def run(tmon_client, num_of_req):
     """ Runs <num_of_req> requests per minute (in parallel) on <tmon_client>. """
